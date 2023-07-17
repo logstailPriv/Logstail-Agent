@@ -1,0 +1,6 @@
+- type: icmp
+  id: HOST_ID
+  name: HOST_NAME
+  hosts: ["HOST_URL"]
+  schedule: '*/5 * * * * * *'
+#New Monitor

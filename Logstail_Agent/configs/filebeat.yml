@@ -1,0 +1,738 @@
+filebeat.inputs:
+
+# Filebeat configuration for system logs (syslog and auth)
+- type: log
+  #module system_auth
+  enabled: true
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/secure.log*
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^\s'
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: USER_TOKEN
+    type: system_auth
+  fields_under_root: true
+- type: log
+  #module system_syslog
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/system.log*
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^\s'
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: USER_TOKEN
+    type: system_syslog
+  fields_under_root: true
+# end of system logs configuration
+
+
+
+
+# Filebeat configuration for ActiveMQ
+- type: log
+  #module activemq_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/apache-activemq*/data/activemq*.log
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^d{4}-d{2}-d{2}'
+    negate: true
+    match: after
+ # processors:
+  #   - add_locale: ~
+   #  - add_fields:
+    #     target: ""
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: activemq_log
+  fields_under_root: true
+# end of ActiveMQ configuration
+
+
+
+# Filebeat configuration for Apache (access and error)
+- type: log
+  #module apache_access
+  enabled: false
+  paths: 
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/var/log/apache2/access_log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: apache_access
+  fields_under_root: true
+- type: log
+  #module apache_error
+  enabled: false
+  paths: 
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+
+    - /usr/local/var/log/apache2/error_log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: apache_error
+  fields_under_root: true
+# end of Apache configuration
+
+
+
+# Filebeat configuration for Auditd
+- type: log
+  #module auditd_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/audit/audit.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: auditd_log
+  fields_under_root: true
+# end of Auditd configuration
+
+
+
+# Filebeat configuration for CoreDNS (pipeline and json)
+# For pipeline logs:
+- type: log
+  #module coredns_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/coredns.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: coredns_log
+  fields_under_root: true
+# For .json logs:
+- type: log
+  #module coredns_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/coredns.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline-json
+    token: "USER_TOKEN"
+    type: coredns_log
+  fields_under_root: true
+
+
+
+# Filebeat configuration for Fortigate
+- type: log
+  #module fortigate_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/fortigate*/data/fortigate*.log
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^d{4}-d{2}-d{2}'
+    negate: true
+    match: after
+ # processors:
+  #   - add_locale: ~
+   #  - add_fields:
+    #     target: ""
+  fields:
+    logstail_agent: filebeat
+#    ecs.version: 1.8.0
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: fortigate_log
+  fields_under_root: true
+# end of Fortigate configuration
+
+
+
+
+# Filebeat configuration for Haproxy
+- type: log
+  #module haproxy_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/haproxy.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: haproxy_log
+  fields_under_root: true
+# end of Haproxy configuration
+
+
+
+# Filebeat configuration for Icinga (debug, main and startup)
+- type: log
+  #module icinga_debug
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/icinga2/var/log/icinga2/debug.log*
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^\['
+    negate: true
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: icinga_debug
+  fields_under_root: true
+- type: log
+  #module icinga_main
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/icinga2/var/log/icinga2/icinga2.log*
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^\['
+    negate: true
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: icinga_main
+  fields_under_root: true
+- type: log
+  #module icinga_startup
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/icinga2/var/log/icinga2/startup.log*
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^[a-z]*/[a-zA-Z]*'
+    negate: true
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: icinga_startup
+  fields_under_root: true
+# end of Icinga configuration
+
+
+
+# Filebeat configuration for Iptables
+- type: log
+  #module iptables_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/kern.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: iptables_log
+  fields_under_root: true
+# end of Iptables configuration
+
+
+
+# Filebeat configuration for Kafka
+- type: log
+  #module kafka_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /opt/kafka*/logs/controller.log*
+    - /opt/kafka*/logs/server.log*
+    - /opt/kafka*/logs/state-change.log*
+    - /opt/kafka*/logs/kafka-*.log*
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^\['
+    negate: true
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: kafka_log
+  fields_under_root: true
+# end of Kafka configuration
+
+
+
+
+# Filebeat configuration for Logstash (log and slowlog)
+# For plain logs:
+- type: log
+  #module logstash_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/logstash/logstash-plain*.log
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^\[[0-9]-[0-9]-[0-9]'
+    negate: true
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline-plaintext
+    token: "USER_TOKEN"
+    type: logstash_log
+  fields_under_root: true
+# For .json logs:
+- type: log
+  #module logstash_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/logstash/logstash-json*.log
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline-json
+    token: "USER_TOKEN"
+    type: logstash_log
+  fields_under_root: true
+# For plain slowlogs:
+- type: log
+  #module logstash_slowlog
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/logstash/logstash-slowlog-plain*.log
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline-plaintext
+    token: "USER_TOKEN"
+    type: logstash_slowlog
+  fields_under_root: true
+# For .json slowlogs:
+- type: log
+  #logstash_slowlog enabled
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/logstash/logstash-slowlog-json*.log
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline-json
+    token: "USER_TOKEN"
+    type: logstash_slowlog
+  fields_under_root: true
+# end of Logstash configuration
+
+
+
+
+
+# Filebeat configuration for Mongodb
+- type: log
+  #module mongodb_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/mongodb/mongodb.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline-plaintext
+    token: "USER_TOKEN"
+    type: mongodb_log
+  fields_under_root: true
+# end of Mongodb configuration
+
+
+
+# Filebeat configuration for MySQL (error and slowlog)
+- type: log
+  #module mysql_error
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/var/mysql/<BUILTIN.HOSTNAME>.<.BUILTIN.DOMAIN>.err*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: mysql_error
+  fields_under_root: true
+- type: log
+  #module mysql_slowlog
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/var/mysql/<.BUILTIN.HOSTNAME>-slow.log*
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^(# User@Host: |# Time: )' 
+    negate: true
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: mysql_slowlog
+  fields_under_root: true
+  exclude_lines: ["^[/w.]+, Version: .* started with:.*", "^# Time:.*"]
+# end of MySQL configuration
+
+
+
+
+# Filebeat configuration for Nats
+- type: log
+  #module nats_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+  # This is an example location of where a user can
+  # set the nats server to log. By default nats
+  # logs only in stderr. In order to set a nats server
+  # to log in specific file use -l flag, for instance:
+  # ./gnatsd -DV -l /var/log/nats/nats.log
+  # See more on https://nats.io/documentation/server/gnatsd-logging/
+    - /var/log/nats/nats.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: nats_log
+  fields_under_root: true
+# end of Nats configuration
+
+
+
+
+# Filebeat configuration for Nginx (access and error)
+- type: log
+  #module nginx_access
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/var/log/nginx/access.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: nginx_access
+  fields_under_root: true
+- type: log
+  #module nginx_error
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/var/log/nginx/error.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: nginx_error
+  fields_under_root: true
+# end of Nginx configuration
+
+
+
+
+# Filebeat configuration for Osquery
+- type: log
+  #module osquery_result
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/osquery/osqueryd.results.log*
+    - /private/var/log/osquery/osqueryd.results.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: osquery_result
+  fields_under_root: true
+  json.overwrite_keys: true
+  json.add_error_key: true
+# end of Osquery configuration
+
+
+
+
+# Filebeat configuration for PHP
+- type: log
+  #module php_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/php.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: php_log
+  fields_under_root: true
+# end of PHP configuration
+
+
+
+
+# Filebeat configuration for PostgreSQL
+- type: log
+  #module postgresql_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/var/postgres/*.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: postgresql_log
+  fields_under_root: true
+# end of PostgreSQL configuration
+
+
+
+# Filebeat configuration for Redis (log and slowlog)
+- type: log
+  #module redis_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/var/log/redis/redis-server.log*
+    - /usr/local/var/db/redis/redis-server.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: redis_log
+  fields_under_root: true
+- type: log
+  #module redis_slowlog
+  enabled: false
+  hosts: "localhost:6379"
+  password: ""
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: redis_slowlog
+  fields_under_root: true
+# end of Redis configuration
+
+
+
+# Filebeat configuration for Santa
+- type: log
+  #module santa_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/santa.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: santa_log
+  fields_under_root: true
+# end of Santa configuration
+
+
+
+
+# Filebeat configuration for Traefik
+- type: log
+  #module traefik_access
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /usr/local/traefik/access.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: traefik_access
+  fields_under_root: true
+# end of Traefik configuration
+
+
+
+## Filebeat configuration for WordPress
+# Configuration for Apache
+- type: log
+  #module apache_access
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/apache2/access.log*
+    - /var/log/apache2/other_vhosts_access.log*
+    - /var/log/httpd/access_log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: apache_access
+    # For multiple WordPress installations
+    wordpress_id: wp01
+# this is the ID of the specific WordPress installation
+  fields_under_root: true
+- type: log
+  #module apache_error
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/apache2/error.log*
+    - /var/log/httpd/error_log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: apache_error
+    # For multiple WordPress installations
+    wordpress_id: wp01
+# this is the ID of the specific WordPress installation
+  fields_under_root: true
+# end of Apache configuration
+
+# Configuration for MySQL (error and slowlog)
+- type: log
+  #module mysql_error
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/mysql/error.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: mysql_error
+    # For multiple WordPress installations
+    wordpress_id: wp01
+# this is the ID of the specific WordPress installation
+  fields_under_root: true
+- type: log
+  #module mysql_slowlog
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/mysql/mysql-slow.log*
+    - /var/log/mysql/-slow.log*
+    - /var/log/mysqld.log*
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^(# User@Host: |# Time: )'
+    negate: true
+    match: after
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: mysql_slowlog
+    # For multiple WordPress installations
+    wordpress_id: wp01  
+# this is the ID of the specific WordPress installation
+  fields_under_root: true
+  exclude_lines: ["^[/w.]+, Version: .* started with:.*", "^# Time:.*"]
+# end of MySQL configuration
+
+# Configuration for PHP logs
+- type: log
+  #module php_error
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/www/html/wp-content/debug.log*
+  exclude_files: [".gz$"]
+  fields:
+    logstail_agent: filebeat
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: php_error
+    # For multiple WordPress installations
+    wordpress_id: wp01  
+# this is the ID of the specific WordPress installation
+  fields_under_root: true
+# end of PHP configuration
+## end of WordPress configuration
+
+
+
+# Filebeat configuration for Imperva
+- type: log
+  #module imperva_log
+  enabled: false
+  paths:
+#CHANGEME IF NEEDED TO YOUR LOG PATH
+    - /var/log/imperva*/data/imperva*.log
+  exclude_files: [".gz$"]
+  multiline:
+    pattern: '^d{4}-d{2}-d{2}'
+    negate: true
+    match: after
+ # processors:
+  #   - add_locale: ~
+   #  - add_fields:
+    #     target: ""
+  fields:
+    logstail_agent: filebeat
+#    ecs.version: 1.8.0
+    codec: pipeline
+    token: "USER_TOKEN"
+    type: imperva_log
+  fields_under_root: true
+# end of imperva configuration
+
+
+
+
+# end of ActiveMQ configuration
+# ************************************************************************
+# Add here configuration for other services (if any) like nginx etc.
+# ************************************************************************
+output.logstash:
+  hosts: ["apps.logstail.com:35723"]
+  ssl.certificate_authorities: ["LOGSTAIL_CERT"]
+

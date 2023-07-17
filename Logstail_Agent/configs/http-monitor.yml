@@ -1,0 +1,7 @@
+- type: http
+  enabled: true
+  id: HOST_ID
+  name: HOST_NAME
+  urls: ["HOST_URL"]
+  schedule: '@every 15s'
+#New Monitor

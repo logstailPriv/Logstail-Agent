@@ -1,0 +1,26 @@
+
+############################# UPTIME ######################################
+
+# Define a directory to load monitor definitions from. Definitions take the form
+# of individual yaml files.
+heartbeat.config.monitors:
+  # Directory + glob pattern to search for configuration files
+  path: ${path.config}/monitors.d/*.yml
+  # If enabled, heartbeat will periodically check the config.monitors path for changes
+  reload.enabled: false
+  # How often to check for changes
+  reload.period: 5s
+
+
+fields_under_root: true
+fields:
+  logstail_agent: uptime
+  token: 9f3ccc1de4778cee02850fdb63c01001
+heartbeat.monitors:
+#New Monitor
+
+
+# ------------------------------ Logstash Output -------------------------------
+output.logstash:
+  hosts: ["apps.logstail.com:35723"]
+  ssl.certificate_authorities: ["C:/Program Files/Logstail-Agent/SectigoRSADomainValidationSecureServerCA.crt"]

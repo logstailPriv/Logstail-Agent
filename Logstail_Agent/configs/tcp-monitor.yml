@@ -1,0 +1,7 @@
+- type: tcp
+  id: HOST_ID
+  name: HOST_NAME
+  hosts: ["HOST_URL"]
+  ports: [HOST_PORT]
+  schedule: '@every 15s'
+#New Monitor
