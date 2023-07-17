@@ -1,12 +1,11 @@
+<div align="center">
+
 # Logstail Agent
-```
-   __                     _          _  _
-  / /   ___    __ _  ___ | |_  __ _ (_)| |
- / /   / _ \  / _` |/ __|| __|/ _` || || |
-/ /___| (_) || (_| |\__ \| |_| (_| || || |
-\____/ \___/  \__, ||___/ \__|\__,_||_||_|
-              |___/
-```
+
+</div>
+
+![Logstail Logo](https://apps.logstail.com/static/media/logstail_text_logo.5c0a8cbe.png)
+
 Logstail Unified Agent Installation script
 
 
