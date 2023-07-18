@@ -37,17 +37,17 @@ URLS = {"debian" :
 },
 "linux" :
  {"x86_64":{
-       "metrics": "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-oss-8.8.1-linux-x86_64.tar.gr",
-       "logs": "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-8.8.1-linux-x86_64.tar.gr",
-       "uptime": "https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-oss-8.8.1-linux-x86_64.tar.gr",
-       "network": "https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-oss-8.8.1-linux-x86_64.tar.gr",
-       "siem": "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.4.4-1_linux-x86_64.tar.gr"},
+       "metrics": "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-oss-8.8.1-linux-x86_64.tar.gz",
+       "logs": "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-8.8.1-linux-x86_64.tar.gz",
+       "uptime": "https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-oss-8.8.1-linux-x86_64.tar.gz",
+       "network": "https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-oss-8.8.1-linux-x86_64.tar.gz",
+       "siem": "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.4.4-1_linux-x86_64.tar.gz"},
   "aarch64":{
-       "metrics": "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-oss-8.8.1-linux-arm64.tar.gr",
-       "logs": "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-8.8.1-linux-arm64.tar.gr",
-       "uptime": "https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-oss-8.8.1-linux-arm64.tar.gr",
-       "network": "https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-oss-8.8.1-linux-arm64.tar.gr",
-       "siem": "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.4.4-1_linux-arm64.tar.gr"}
+       "metrics": "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-oss-8.8.1-linux-arm64.tar.gz",
+       "logs": "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-8.8.1-linux-arm64.tar.gz",
+       "uptime": "https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-oss-8.8.1-linux-arm64.tar.gz",
+       "network": "https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-oss-8.8.1-linux-arm64.tar.gz",
+       "siem": "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.4.4-1_linux-arm64.tar.gz"}
 },
 }
 

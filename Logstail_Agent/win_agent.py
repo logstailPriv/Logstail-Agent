@@ -109,7 +109,6 @@ def install_npcap():
        print("Npcap installation successful.")
     except subprocess.CalledProcessError as e:
        print(f"Npcap installation failed. Error: {str(e)}\nContact as at support@logstail.com")
-
     # Clean up the installer file
     subprocess.run(["del", cwd], shell=True)
     return
@@ -257,6 +256,7 @@ def install(user_os, component, architecture, user_token):
             print('Required service is Installed!')
             print(f'--------------------------------')
       try:
+         print(f'Starting {component} collector...')
          subprocess.call(["sc", "start", beat], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
          print(f'{component} collector started!')
          print(f'--------------------------------')

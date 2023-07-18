@@ -4,7 +4,7 @@ under the Apache License Version 2.0.
 This product includes software developed at Logstail (https://logstail.com/).
 Copyright 2023-present Logstail
 '''
-
+import ssl
 import time
 import os
 import platform
@@ -245,7 +245,7 @@ def collector_functions(option, user_os, user_arch, component):
           if component != 'siem':
              print(f'Get your token from the Logstail Platform!')
              user_token = input(f'Enter your Logstail Token: ')
-             linux_install(user_os, component, user_arch, user_token) #REMEMBER to change to vars
+             rpm_install(user_os, component, user_arch, user_token) #REMEMBER to change to vars
           else:
              print(f'Contact Logstail team to get the unique Logstail Enterprise key to setup Cloud SIEM. ')
              logstail_key = input(f'Enter your unique Logstail Enterprise key: ')
@@ -256,34 +256,34 @@ def collector_functions(option, user_os, user_arch, component):
                 print("Logstail Enterprise key not correct.\nContact support@logstail.com")
                 return
              agent_name = input(f'Enter a name for your agent (If you have more that one agents make sure it\'s unique): ')
-             linux_install_siem(user_os, component, user_arch, logs_port, auth_port, agent_name)
+             rpm_install_siem(user_os, component, user_arch, logs_port, auth_port, agent_name)
           return
        elif option == '2':
           #status
-          linux_status(component)
+          rpm_status(component)
           return
        elif option == '3':
           #show modules
-          linux_show_modules(component) #REMEMBER to change to vars
+          rpm_show_modules(component) #REMEMBER to change to vars
           return
        elif option == '4':
           #enable module
-          linux_enable_module(component) #REMEMBER to change to vars
+          rpm_enable_module(component) #REMEMBER to change to vars
           return
        elif option == '5':
           #disable module
-          linux_disable_module(component) #REMEMBER to change to vars
+          rpm_disable_module(component) #REMEMBER to change to vars
           return
        elif option == '6':
           #Restart
-          linux_restart(component)  #REMEMBER to change to vars
+          rpm_restart(component)  #REMEMBER to change to vars
           return
        elif option == '7':
           if (input(f'You are about to unistall {component} collector. Are you sure? (Y/n): ') == 'Y'):
              if component == 'siem':
-                linux_uninstall_siem(user_os, component, user_arch)
+                rpm_uninstall_siem(user_os, component, user_arch)
              else:
-                linux_uninstall(component)
+                rpm_uninstall(component)
           return
        elif option == 'Q':
           #exit()
@@ -306,6 +306,7 @@ def agent_component_input():
 if __name__ == "__main__":
    OS_INPUTS = ['1', '2', 'Q']
    welcome()
+   print(ssl.OPENSSL_VERSION)
    print(f'Gathering System info...')
 #   time.sleep(3)
    user_os = platform.system().lower()
@@ -328,9 +329,9 @@ if __name__ == "__main__":
       elif component == '3': #network
          print(f'Network component is a lightweight network packet analyzer that sends data from your hosts and containers to Logstail Servers. It supports many application layer protocols, from database to key-value stores to HTTP and low-level protocols. It provides visibility between the servers of your network')
       elif component == '4': #uptime
-         print(f'Uptime component is a lightweight daemon that periodically checks the status and response time of your services using ICMP, TCP, or HTTP. Uptime monitors whether your services are available and reachable')
+         print(f'Uptime component is a lightweight daemon that periodically checks the status and response time of your services using ICMP, TCP, or HTTP. Uptime monitors whether your services are available and reachable.')
       elif component == '5': #siem
-         print(f'SIEM is a multi-platform component that runs on endpoints to monitor their security. It provides prevention, detection, and response capabilities for different threats. It can be deployed to various operating systems and devices, such as Linux, Windows, macOS, Solaris, AIX, laptops, desktops, servers, cloud instances, containers, or virtual machines. It communicates with the Logstail Correlation server, sending data in near real-time through an encrypted and authenticated channel')
+         print(f'SIEM is a multi-platform component that runs on endpoints to monitor their security. It provides prevention, detection, and response capabilities for different threats. It can be deployed to various operating systems and devices, such as Linux, Windows, macOS, Solaris, AIX, laptops, desktops, servers, cloud instances, containers, or virtual machines. It communicates with the Logstail Correlation server, sending data in near real-time through an encrypted and authenticated channel.')
          print(f'---ATTENTION---')
          print(f'To access SIEM you must have an enterprise plan in Logstail Platform.\nContact us now at sales@logstail.com')
       option = 0 #Initialize   

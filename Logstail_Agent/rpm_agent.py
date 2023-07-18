@@ -115,6 +115,8 @@ def install(user_os, component, architecture, user_token):
    os.makedirs(cwd, exist_ok=True)
    print(f'--------------------------------')
    print(f'Downloading Logstail certificate for secure communication...')
+   if not os.path.exists('/etc/certs/logstail'):
+      os.makedirs('/etc/certs/logstail')
    urllib.request.urlretrieve(CERT, '/etc/certs/logstail/SectigoRSADomainValidationSecureServerCA.crt', reporthook=reporthook)
    print(f'Certificate successfully downloaded')
    print(f'--------------------------------')
@@ -127,6 +129,8 @@ def install(user_os, component, architecture, user_token):
    print(f'Cleaining up...')
    subprocess.call(["rm", filepath])
    print(f'{component} Collector Successfully installed!')
+   if not os.path.exists('/var/log/Logstail'):
+      os.makedirs('/var/log/Logstail/')
    write_to_log(f'{component} collector installed', '/var/log/Logstail/agent.log')
    print(f'--------------------------------')
    beat = map_to_beats(component)
@@ -135,6 +139,7 @@ def install(user_os, component, architecture, user_token):
    with open(conf_file, 'r') as file:
       yaml_data = file.readlines()
    yaml_data = replace_string(yaml_data, "USER_TOKEN", user_token)
+   yaml_data = replace_string(yaml_data, "LOGSTAIL_CERT", '/etc/certs/logstail/SectigoRSADomainValidationSecureServerCA.crt')
    with open(conf_file, 'w') as file:
       file.writelines(yaml_data)
    #replace in the instalation directory and restart the collector
@@ -168,7 +173,7 @@ def install_siem(user_os, component, architecture, logs_port, auth_port, agent_n
    write_to_log(f'{component} collector installed', '/var/log/Logstail/agent.log')
    print(f'--------------------------------')
    if user_os == 'debian':
-      conf_file = os.getcwd() + f'/configs/ossec_deb.conf'
+      conf_file = os.getcwd() + f'/configs/ossec_rpm.conf'
    with open(conf_file, 'r') as file:
       yaml_data = file.readlines()
    yaml_data = replace_string(yaml_data, "LOGS_PORT", logs_port)
