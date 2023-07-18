@@ -114,6 +114,8 @@ def install(user_os, component, architecture, user_token):
    os.makedirs(cwd, exist_ok=True)
    print(f'--------------------------------')
    print(f'Downloading Logstail certificate for secure communication...')
+   if not os.path.exists('/etc/certs/logstail'):
+      os.makedirs('/etc/certs/logstail')
    urllib.request.urlretrieve(CERT, '/etc/certs/logstail/SectigoRSADomainValidationSecureServerCA.crt', reporthook=reporthook)
    print(f'Certificate successfully downloaded')
    print(f'--------------------------------')
@@ -121,11 +123,13 @@ def install(user_os, component, architecture, user_token):
    #download .deb from Logstail github
    urllib.request.urlretrieve(url, filepath, reporthook=reporthook)
    #install .deb file
-   subprocess.call(["dpkg", "-i", filepath])
+   subprocess.call(["dpkg", "-i", filepath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'--------------------------------')
    print(f'Cleaining up...')
-   subprocess.call(["rm", filepath])
+   subprocess.call(["rm", filepath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'{component} Collector Successfully installed!')
+   if not os.path.exists('/var/log/Logstail'):
+      os.makedirs('/var/log/Logstail/')
    write_to_log(f'{component} collector installed', '/var/log/Logstail/agent.log')
    print(f'--------------------------------')
    beat = map_to_beats(component)
@@ -134,13 +138,14 @@ def install(user_os, component, architecture, user_token):
    with open(conf_file, 'r') as file:
       yaml_data = file.readlines()
    yaml_data = replace_string(yaml_data, "USER_TOKEN", user_token)
+   yaml_data = replace_string(yaml_data, "LOGSTAIL_CERT", '/etc/certs/logstail/SectigoRSADomainValidationSecureServerCA.crt')
    with open(conf_file, 'w') as file:
       file.writelines(yaml_data)
    #replace in the instalation directory and restart the collector
-   subprocess.call(["cp", conf_file, f'/etc/{beat}/{beat}.yml'])
+   subprocess.call(["cp", conf_file, f'/etc/{beat}/{beat}.yml'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'--------------------------------')
    print(f'Starting {component} collector...')
-   subprocess.call(["service", beat, "restart"])
+   subprocess.call(["service", beat, "restart"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'{component} collector started!')
    print(f'--------------------------------')
    return
@@ -154,15 +159,13 @@ def install_siem(user_os, component, architecture, logs_port, auth_port, agent_n
    #make output directory for the agent download file
    os.makedirs(cwd, exist_ok=True)
    filepath = cwd + '/' + component + '-logstail.deb'
-   #REMOVE LATER
-   filepath = '/home/ioannis/wazuh-agent-pkg/logstail-siem.deb'
    #download .deb from Logstail github
    urllib.request.urlretrieve(url, filepath, reporthook=reporthook)
    #install .deb file
-   subprocess.call(["dpkg", "-i", filepath])
+   subprocess.call(["dpkg", "-i", filepath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'--------------------------------')
    print(f'Cleaining up...')
-   subprocess.call(["rm", filepath])
+   subprocess.call(["rm", filepath], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'{component} Successfully installed!')
    write_to_log(f'{component} collector installed', '/var/log/Logstail/agent.log')
    print(f'--------------------------------')
@@ -176,10 +179,10 @@ def install_siem(user_os, component, architecture, logs_port, auth_port, agent_n
    with open(conf_file, 'w') as file:
       file.writelines(yaml_data)
    #replace in the instalation directory and restart the collector
-   subprocess.call(["cp", conf_file, '/var/ossec/etc/ossec.conf'])
+   subprocess.call(["cp", conf_file, '/var/ossec/etc/ossec.conf'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'--------------------------------')
    print(f'Starting {component}...')
-   subprocess.call(["service", 'logstail-agent', "restart"]) #change to logstail agent later
+   subprocess.call(["service", 'logstail-siem', "restart"], stdout=subprocess.PIPE, stderr=subprocess.PIPE) #change to logstail agent later
    print(f'{component} started!')
    print(f'--------------------------------')
    return
@@ -246,7 +249,7 @@ def enable_module(component):
       test_config(component, cwd_cert + '/Logstail-' + component)
       print(f'--------------------------------')
       print(f'Restarting {component} collector...')
-      subprocess.call(["service", beat, "restart"])
+      subprocess.call(["service", beat, "restart"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
       print(f'{component} collector restarted!')
       print(f'--------------------------------')
       return
@@ -281,7 +284,7 @@ def enable_module(component):
       print(f'Enabled {module_name}.')
       print(f'--------------------------------')
       print(f'Restarting {component} collector...')
-      subprocess.call(["service", beat, "restart"])
+      subprocess.call(["service", beat, "restart"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
       print(f'{component} collector restarted!')
       print(f'Further configuration might be needed for module to work!\nOpen the configuration file ({conf_file}) locate the {module_name} module and validate the configuration!\nRestart is required for changes to Apply!')
       print(f'--------------------------------')
@@ -334,7 +337,7 @@ def disable_module(component):
       print(f'--------------------------------')
       print(f'Disabled {module_name}.')
       print(f'Restarting {component} collector...')
-      subprocess.call(["service", beat, "restart"])
+      subprocess.call(["service", beat, "restart"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
       print(f'{component} collector restarted!')
       print(f'--------------------------------')
    else:
@@ -361,7 +364,7 @@ def restart(component):
    beat = map_to_beats(component)
    print(f'--------------------------------')
    print(f'Restarting {component} collector...')
-   subprocess.call(["service", beat, "restart"])
+   subprocess.call(["service", beat, "restart"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'{component} collector restarted!')
    print(f'--------------------------------')
    return
@@ -370,11 +373,11 @@ def uninstall(component):
    beat = map_to_beats(component)
    print(f'--------------------------------')
    print(f'Stopping {component} collector...')
-   subprocess.call(["service", beat, "stop"])
+   subprocess.call(["service", beat, "stop"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'{component} collector restarted!')
    print(f'Uninstalling {component} collector...')
-   subprocess.call(["apt", 'remove', beat])
+   subprocess.call(["apt", 'remove', beat], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'Deleting files...')
-   subprocess.call(['rm', '-r', f'/etc/{beat}'])
+   subprocess.call(['rm', '-r', f'/etc/{beat}'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    print(f'Uninstall successfull!')
    print(f'--------------------------------')

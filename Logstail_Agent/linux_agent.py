@@ -115,21 +115,26 @@ def install(user_os, component, architecture, user_token):
    os.makedirs(cwd, exist_ok=True)
    print(f'--------------------------------')
    print(f'Downloading Logstail certificate for secure communication...')
+   if not os.path.exists('/etc/certs/logstail/'):
+      os.makedirs('/etc/certs/logstail/')
    urllib.request.urlretrieve(CERT, '/etc/certs/logstail/SectigoRSADomainValidationSecureServerCA.crt', reporthook=reporthook)
    print(f'Certificate successfully downloaded')
    print(f'--------------------------------')
-   filepath = cwd + '/' + component + '-logstail.deb'
+   filepath = cwd + '/' + component + '-logstail.tar.gz'
    #download .deb from Logstail github
+   print(url)
    urllib.request.urlretrieve(url, filepath, reporthook=reporthook)
+   beat = map_to_beats(component)
    #install .deb file
    subprocess.call(["tar", "xzvf", filepath])
+   filepath = cwd + '/' + component + '-logstail'
+   subprocess.call([f'{filepath}/{beat}', 'setup'])
    print(f'--------------------------------')
    print(f'Cleaining up...')
    subprocess.call(["rm", filepath])
    print(f'{component} Collector Successfully installed!')
    write_to_log(f'{component} collector installed', '/var/log/Logstail/agent.log')
    print(f'--------------------------------')
-   beat = map_to_beats(component)
    #replace Token with user's Token
    conf_file = os.getcwd() + f'/configs/{beat}.yml'
    with open(conf_file, 'r') as file:
