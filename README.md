@@ -77,6 +77,7 @@ Enter an option:
 
 
 # **Extras**
++ Sometimes systems are getting identified as linux. Make sure you manually execute the code with the correct options. For example if you run an CentOS system and it gets identified as linux the use the manual option and enter rpm and the architecture of your system
 + To install the Security Monitoring (SIEM) collector you must first get in touch with us. Also this collector is included in the Enterprise Plan.  
 + If you wish to ship data from a non-supported source contact us and we will develop this source at no-cost.
 + If you find any bugs while running the script let us know and we will get it patched as soon as possible.
