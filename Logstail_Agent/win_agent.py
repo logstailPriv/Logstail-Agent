@@ -282,7 +282,7 @@ def install_siem(user_os, component, architecture, logs_port, auth_port, agent_n
    os.makedirs(cwd_cert, exist_ok=True)
    filepath = cwd + '\\logstail-siem.msi'
    #download siem agent from Logstail github
-   #urllib.request.urlretrieve(url, filepath, reporthook=reporthook) NEED TO UNCOMMENT!!!!!!!
+   urllib.request.urlretrieve(url, filepath, reporthook=reporthook)
    if component == 'siem':
       beat = 'LogstailSvc'
    else:
@@ -587,13 +587,14 @@ def restart(component):
       beat = 'LogstailSvc'
    else:
       beat = map_to_beats(component)
-   try:
-      cwd_cert = 'C:/Program Files/Logstail-Agent'
-      test_config(component, cwd_cert + '/Logstail-' + component)
-      print(f'--------------------------------')
-      print(f'Restarting {component} collector...')
-   except Exception as e:
-      print("Failed to check configuration.\nInstall collector, if error continues contact us at support@logstail.com")
+   if component != 'siem':
+      try:
+         cwd_cert = 'C:/Program Files/Logstail-Agent'
+         test_config(component, cwd_cert + '/Logstail-' + component)
+         print(f'--------------------------------')
+         print(f'Restarting {component} collector...')
+      except Exception as e:
+         print("Failed to check configuration.\nInstall collector, if error continues contact us at support@logstail.com")
    try:
       subprocess.call(["sc", "stop", beat], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
       subprocess.call(["sc", "start", beat], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
