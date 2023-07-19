@@ -64,4 +64,4 @@ MAPPINGS = {'metrics':'metricbeat',
             'uptime': 'heartbeat',
             'network': 'packetbeat',
             'windows': 'winlogbeat',
-            'siem': 'wazuh-agent'} #change
+            'siem': 'logstail-agent'}

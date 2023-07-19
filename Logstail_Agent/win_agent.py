@@ -321,7 +321,7 @@ def uninstall_siem(user_os, component, architecture):
    os.makedirs(cwd_cert, exist_ok=True)
    filepath = cwd + '\\logstail-siem.msi'
    #download siem agent from Logstail github
-   #urllib.request.urlretrieve(url, filepath, reporthook=reporthook) NEED TO UNCOMMENT!!!!!!!
+   urllib.request.urlretrieve(url, filepath, reporthook=reporthook)
    if component == 'siem':
       beat = 'LogstailSvc'
    else:
