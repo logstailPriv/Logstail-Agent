@@ -178,7 +178,7 @@ def uninstall(component):
    print(f'Uninstall {component} collector service...')
    ps_file = cwd_cert + '/Logstail-' + component + f'/uninstall-service-{beat}.ps1'
    try:
-      subprocess.call(['powershell', '-File', ps_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+      subprocess.call(['powershell', '-ExecutionPolicy', 'Bypass', '-File', ps_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
       print(f'{component} collector service uninstalled!')
       print(f'--------------------------------')
       print(f'Removing files...')
@@ -235,7 +235,7 @@ def install(user_os, component, architecture, user_token):
    print(f'Install {component} collector service...')
    ps_file = cwd_cert + '/Logstail-' + component + f'/install-service-{beat}.ps1'
    try:
-      subprocess.call(['powershell', '-File', ps_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
+      subprocess.call(['powershell', '-ExecutionPolicy', 'Bypass', '-File', ps_file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
       print(f'{component} collector service installed!')
       write_to_log(f'{component} collector installed', cwd_cert + '/logs/agent.log')
       print(f'--------------------------------')
@@ -280,7 +280,7 @@ def install_siem(user_os, component, architecture, logs_port, auth_port, agent_n
    #cert download path
    cwd_cert = 'C:/Program Files/Logstail-Agent'
    os.makedirs(cwd_cert, exist_ok=True)
-   filepath = cwd
+   filepath = cwd + '\\logstail-siem.msi'
    #download siem agent from Logstail github
    #urllib.request.urlretrieve(url, filepath, reporthook=reporthook) NEED TO UNCOMMENT!!!!!!!
    if component == 'siem':
@@ -319,7 +319,7 @@ def uninstall_siem(user_os, component, architecture):
    #cert download path
    cwd_cert = 'C:/Program Files/Logstail-Agent'
    os.makedirs(cwd_cert, exist_ok=True)
-   filepath = cwd
+   filepath = cwd + '\\logstail-siem.msi'
    #download siem agent from Logstail github
    #urllib.request.urlretrieve(url, filepath, reporthook=reporthook) NEED TO UNCOMMENT!!!!!!!
    if component == 'siem':
@@ -423,7 +423,7 @@ def enable_module(component):
          cwd = os.getcwd()
          cwd = cwd + '\\scripts'
          try:
-            subprocess.run(['powershell.exe', '-File', cwd + '\\sysmon.ps1'], check=True)
+            subprocess.run(['powershell.exe', '-ExecutionPolicy', 'Bypass', '-File', cwd + '\\sysmon.ps1'], check=True)
             print(f'--------------------------------')
             print("PowerShell script executed successfully.\nSysmon is now enabled!")
             print(f'--------------------------------')

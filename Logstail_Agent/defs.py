@@ -13,13 +13,13 @@ URLS = {"debian" :
        "logs": "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-8.8.1-amd64.deb",
        "uptime": "https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-oss-8.8.1-amd64.deb",
        "network": "https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-oss-8.8.1-amd64.deb",
-       "siem": "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.4.4-1_amd64.deb"},
+       "siem": "https://github.com/logstailPriv/Collectors/raw/main/logstail-siem.deb"},
   "aarch64":{
        "metrics": "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-oss-8.8.1-arm64.deb",
        "logs": "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-8.8.1-arm64.deb",
        "uptime": "https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-oss-8.8.1-arm64.deb",
        "network": "https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-oss-8.8.1-arm64.deb",
-       "siem": "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.4.4-1_arm64.deb"}
+       "siem": "https://github.com/logstailPriv/Collectors/raw/main/logstail-siem-aarch.deb"}
 },
 "rpm" :
  {"x86_64":{
@@ -56,7 +56,7 @@ URLS_WIN = {"metrics": "https://artifacts.elastic.co/downloads/beats/metricbeat/
        "logs": "https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-oss-8.8.2-windows-x86_64.zip",
        "uptime": "https://artifacts.elastic.co/downloads/beats/heartbeat/heartbeat-oss-8.8.2-windows-x86_64.zip",
        "network": "https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-oss-8.8.2-windows-x86_64.zip",
-       "siem": "https://packages.wazuh.com/4.x/windows/wazuh-agent-4.4.4-1.msi"}
+       "siem": "https://github.com/logstailPriv/Collectors/raw/main/logstail-siem.msi"}
 
 
 MAPPINGS = {'metrics':'metricbeat',
