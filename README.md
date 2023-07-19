@@ -11,6 +11,9 @@ Logstail Unified Agent Installation script
 
 # **Requirements**
 * Python3.6 or newer version
+  ```
+  python -V
+  ```
 * A supported OS by Logstail Agent (Windows, Debian, Linux, RedHat)
 
 # **How to run the script**
