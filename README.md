@@ -80,6 +80,13 @@ Enter an option:
 
 
 # **Extras**
++ Port 35723 is required for shipping logs to Logstail Platform. Make sure you have this destination port open. For security reason we suggest only allowing traffic to our host.
 + To install the Security Monitoring (SIEM) collector you must first get in touch with us. Also this collector is included in the Enterprise Plan.  
 + If you wish to ship data from a non-supported source contact us and we will develop this source at no-cost.
 + If you find any bugs while running the script let us know and we will get it patched as soon as possible.
++ When installing SIEM in windows **DO NOT** change installation path and and the end click finish without checking the box.
++ Mikrotik Monitoring is not included in this script.
+
+
+# **Need Help?**
+Get in touch with us today at support@logstail.com
