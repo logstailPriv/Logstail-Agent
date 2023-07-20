@@ -134,9 +134,6 @@ def collector_functions(option, user_os, user_arch, component):
           return
        elif option == '7':
           if (input(f'You are about to unistall {component} collector. Are you sure? (Y/n): ') == 'Y'):
-             if component == 'siem':
-                deb_uninstall_siem(user_os, component, user_arch)
-             else:
                 deb_uninstall(component)
           return
        elif option == 'Q':
@@ -306,7 +303,6 @@ def agent_component_input():
 if __name__ == "__main__":
    OS_INPUTS = ['1', '2', 'Q']
    welcome()
-   print(ssl.OPENSSL_VERSION)
    print(f'Gathering System info...')
 #   time.sleep(3)
    user_os = platform.system().lower()
