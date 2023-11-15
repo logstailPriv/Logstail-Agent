@@ -181,9 +181,14 @@ def install_siem(user_os, component, architecture, logs_port, auth_port, agent_n
       file.writelines(yaml_data)
    #replace in the instalation directory and restart the collector
    subprocess.call(["cp", conf_file, '/var/ossec/etc/ossec.conf'])
+   #request auth key from Logstail.
+   try:
+      subprocess.call(['/var/ossec/bin/agent-auth', '-m', 'apps.logstail.com', '-p', auth_port, '-A', agent_name])
+   except:
+      print('Error recieving auth key from Logstail')
    print(f'--------------------------------')
    print(f'Starting {component}...')
-   subprocess.call(["service", 'logstail-agent', "restart"]) #change to logstail agent later
+   subprocess.call(["service", 'wazuh-agent', "restart"]) #change to logstail agent later
    print(f'{component} started!')
    print(f'--------------------------------')
    return
