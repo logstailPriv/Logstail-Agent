@@ -197,7 +197,7 @@ def install_siem(user_os, component, architecture, logs_port, auth_port, agent_n
    subprocess.call(["cp", conf_file, '/var/ossec/etc/ossec.conf'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
    #request auth key from Logstail.
    try:
-      subprocess.call(['/var/ossec/bin/agent-auth', '-m', 'apps.logstail.com', '-p', auth_port])
+      subprocess.call(['/var/ossec/bin/agent-auth', '-m', 'apps.logstail.com', '-p', auth_port, '-A', agent_name])
    except:
       print('Error recieving auth key from Logstail')
    print(f'--------------------------------')
