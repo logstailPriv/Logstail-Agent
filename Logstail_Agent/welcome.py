@@ -15,7 +15,7 @@ def welcome():
 \____/ \___/  \__, ||___/ \__|\__,_||_||_|
               |___/                       
 '''
-    WELCOME_MESSAGE = 'Welcome to Logstail Agent Instalation'
+    WELCOME_MESSAGE = 'Welcome to Logstail Agent Instalation!\nIf you need help please contact us at support@logstail.com\nIf you find any bugs pleases let us know and we will fix it as soon as possible!'
     print(ASCII_TEXT)
     print(WELCOME_MESSAGE)
     print(f'--------------------------------')
