@@ -38,19 +38,12 @@ from linux_agent import enable_module as linux_enable_module
 from linux_agent import disable_module as linux_disable_module
 from linux_agent import restart as linux_restart
 from linux_agent import uninstall as linux_uninstall
-#windows
-from win_agent import install as win_install
-from win_agent import show_modules as win_show_modules
-from win_agent import enable_module as win_enable_module
-from win_agent import disable_module as win_disable_module
-from win_agent import show_status as win_status
-from win_agent import restart as win_restart
-from win_agent import install_siem as win_install_siem
-from win_agent import uninstall as win_uninstall
-from win_agent import uninstall_siem as win_uninstall_siem
+
 from welcome import welcome
+import base64
 
 def extract_ports(string):
+    string = base64.b64decode(string).decode('utf-8')
     match = re.search(r'LogstailEnterprise(\d+)#(\d+)', string)
     if match:
         number1 = match.group(1)
@@ -80,7 +73,7 @@ def print_collectors_options():
     print('5: Disable module')
     print('6: Restart Collector')
     print('7: Uninstal')
-    print('Q: Quit')
+    print('Q: Back')
     print('--------------------------------')
 
 def collectors_options_input():
@@ -135,56 +128,6 @@ def collector_functions(option, user_os, user_arch, component):
        elif option == '7':
           if (input(f'You are about to unistall {component} collector. Are you sure? (Y/n): ') == 'Y'):
                 deb_uninstall(component)
-          return
-       elif option == 'Q':
-          #exit()
-          return
-    elif user_os == 'windows':
-       if option == '1':
-          if component != 'siem':
-             print(f'Get your token from the Logstail Platform!')
-             user_token = input(f'Enter your Logstail Token: ')
-             win_install(user_os, component, 'x86_64', user_token) #REMEMBER to change to vars
-          else:
-             print(f'Contact Logstail team to get the unique Logstail Enterprise key to setup Cloud SIEM. ')
-             logstail_key = input(f'Enter your unique Logstail Enterprise key: ')
-             result = extract_ports(logstail_key)
-             if result:
-                logs_port, auth_port = result
-             else:
-                print("Logstail Enterprise key not correct.\nContact support@logstail.com")
-                return
-             #logs_port = input(f'Enter the port for the log shipping: ')
-             #auth_port = input(f'Enter the port for authentication: ')
-             agent_name = input(f'Enter a name for your agent (If you have more that one agents make sure it\'s unique): ')
-             win_install_siem(user_os, component, user_arch, logs_port, auth_port, agent_name)
-          return
-       elif option == '2':
-          #status
-          win_status(component)
-          return
-       elif option == '3':
-          #show modules
-          win_show_modules(component) #REMEMBER to change to vars
-          return
-       elif option == '4':
-          #enable module
-          win_enable_module(component) #REMEMBER to change to vars
-          return
-       elif option == '5':
-          #disable module
-          win_disable_module(component) #REMEMBER to change to vars
-          return
-       elif option == '6':
-          #Restart
-          win_restart(component)  #REMEMBER to change to vars
-          return
-       elif option == '7':
-          if (input(f'You are about to unistall {component} collector. Are you sure? (Y/n): ') == 'Y'):
-             if component == 'siem':
-                win_uninstall_siem(user_os, component, user_arch)
-             else:                   
-                win_uninstall(component)
           return
        elif option == 'Q':
           #exit()
@@ -303,17 +246,19 @@ def agent_component_input():
 if __name__ == "__main__":
    OS_INPUTS = ['1', '2', 'Q']
    welcome()
-   print(f'Gathering System info...')
+#   print(f'Gathering System info...')
 #   time.sleep(3)
-   user_os = platform.system().lower()
-   user_os_detail = platform.machine().lower()
-   print(f'Detected {user_os} {user_os_detail}.')
+#   user_os = platform.system().lower()
+#   user_os_detail = platform.machine().lower()
    print(f'--------------------------------')
-   is_correct = input(f'Is this the operating system type you want to install for? (Y/n): ')
+   print(f'Supported OS Systems:\n1. Debian \n2. Linux \n3. RPM')
+   print(f'--------------------------------')
+#   is_correct = input(f'Is this the operating system type you want to install for? (Y/n): ')
+   is_correct = 'n'
    if is_correct == 'n':
       print(f'--------------------------------')
-      user_os = input('Enter your Operating System name (linux, windows, etc): ')
-      user_os_detail = input('Enter your Operating System Architecture: (aarch, x86_64 etc): ')
+      user_os = input('Enter your Operating System name (Debian, Linux, RPM): ').lower()
+      user_os_detail = input('Enter your Operating System Architecture: (aarch64, x86_64): ').lower()
       print(f'--------------------------------')
    component = agent_component_input()
    while component != 'Q':
@@ -348,3 +293,4 @@ if __name__ == "__main__":
             option = collectors_options_input()
             collector_functions(option, user_os, user_os_detail, 'siem')
       component = agent_component_input()
+                                                           
