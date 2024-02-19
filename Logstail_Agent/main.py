@@ -179,7 +179,7 @@ def collector_functions(option, user_os, user_arch, component):
           return
        elif option == 'Q':
           #exit()
-          return  
+          return
     elif user_os == 'rpm':
        if option == '1':
           if component != 'siem':
@@ -227,9 +227,9 @@ def collector_functions(option, user_os, user_arch, component):
           return
        elif option == 'Q':
           #exit()
-          return          
-    
-          
+          return
+
+
 def agent_component_input():
    COMPONENTS_INPUTS = ['1', '2', '3', '4', '5', 'Q']
    user_input = ''
@@ -256,10 +256,22 @@ if __name__ == "__main__":
 #   is_correct = input(f'Is this the operating system type you want to install for? (Y/n): ')
    is_correct = 'n'
    if is_correct == 'n':
-      print(f'--------------------------------')
-      user_os = input('Enter your Operating System name (Debian, Linux, RPM): ').lower()
-      user_os_detail = input('Enter your Operating System Architecture: (aarch64, x86_64): ').lower()
-      print(f'--------------------------------')
+      valid_os = ['debian', 'linux', 'rpm']
+      while True:
+          print(f'--------------------------------')
+          user_os = input('Enter your Operating System name (Debian, Linux, RPM): ').lower()
+          if user_os in valid_os:
+             break  # Exit the loop if the input is valid
+          else:
+             print("Invalid Operating System name. Please enter either Debian, Linux, or RPM.")
+      valid_os_details = ['aarch64', 'x86_64']  # List of valid operating system architectures in lowercase
+      while True:
+          user_os_detail = input('Enter your Operating System Architecture (aarch64, x86_64): ').lower()
+          if user_os_detail in valid_os_details:
+             break  # Exit the loop if the input is valid
+          else:
+             print("Invalid Operating System Architecture. Please enter either aarch64 or x86_64.")
+             print(f'--------------------------------')
    component = agent_component_input()
    while component != 'Q':
       #Print Descriptions
@@ -275,7 +287,7 @@ if __name__ == "__main__":
          print(f'SIEM is a multi-platform component that runs on endpoints to monitor their security. It provides prevention, detection, and response capabilities for different threats. It can be deployed to various operating systems and devices, such as Linux, Windows, macOS, Solaris, AIX, laptops, desktops, servers, cloud instances, containers, or virtual machines. It communicates with the Logstail Correlation server, sending data in near real-time through an encrypted and authenticated channel.')
          print(f'---ATTENTION---')
          print(f'To access SIEM you must have an enterprise plan in Logstail Platform.\nContact us now at sales@logstail.com')
-      option = 0 #Initialize   
+      option = 0 #Initialize
       while option != 'Q':
          if component == '1': #logs
             option = collectors_options_input()
@@ -293,4 +305,3 @@ if __name__ == "__main__":
             option = collectors_options_input()
             collector_functions(option, user_os, user_os_detail, 'siem')
       component = agent_component_input()
-                                                           
